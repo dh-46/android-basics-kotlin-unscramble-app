@@ -1,5 +1,6 @@
 package com.example.android.unscramble.ui.game
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 
 /**
@@ -16,4 +17,15 @@ class GameViewModel : ViewModel() {
     // NOTE: Never expose mutable data fields from your ViewModel
     // NOTE: Mutable data inside the ViewModel should always be private.
     val currentScrambledWord: String get() = _currentScrambledWord
+
+    init {
+        // 物件初始化時執行
+        Log.d("GameFragment", "GameViewModel created!")
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        // ViewModel被清除時執行
+        Log.d("GameFragment", "GameViewModel destroyed!")
+    }
 }
