@@ -75,4 +75,19 @@ class GameViewModel : ViewModel() {
             true
         } else false
     }
+
+    /**
+     * 檢查使用者答案是否正確
+     */
+    fun isUserWordCorrect(playerWord: String):Boolean {
+        if (playerWord.equals(currentWord, false)) {
+            increaseScore()
+            return true
+        }
+        return false
+    }
+
+    private fun increaseScore() {
+        _score += SCORE_INCREASE
+    }
 }
