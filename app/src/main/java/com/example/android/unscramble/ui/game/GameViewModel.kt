@@ -1,6 +1,8 @@
 package com.example.android.unscramble.ui.game
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 /**
@@ -16,11 +18,11 @@ class GameViewModel : ViewModel() {
         get() = _currentWordCount
 
     // Backing property
-    private lateinit var _currentScrambledWord: String
+    private val _currentScrambledWord = MutableLiveData<String>()
     // 這個讓外部存取 read-only
     // NOTE: Never expose mutable data fields from your ViewModel
     // NOTE: Mutable data inside the ViewModel should always be private.
-    val currentScrambledWord: String get() = _currentScrambledWord
+    val currentScrambledWord: LiveData<String> get() = _currentScrambledWord
 
     /**
      * 已經出過題目的單字清單
@@ -64,7 +66,7 @@ class GameViewModel : ViewModel() {
             // 已經出過該單字
             getNextWord()
         } else {
-            _currentScrambledWord = String(tempWord)
+            _currentScrambledWord.value = String(tempWord)
             // currentWordCount
             ++_currentWordCount
             wordsList.add(currentWord)
