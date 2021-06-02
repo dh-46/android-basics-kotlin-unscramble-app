@@ -92,4 +92,14 @@ class GameViewModel : ViewModel() {
     private fun increaseScore() {
         _score += SCORE_INCREASE
     }
+
+    /**
+     * Word count 已達到 10 時，需要 reset
+     */
+    fun reinitializeData() {
+        _score = 0
+        _currentWordCount = 0
+        wordsList.clear()
+        getNextWord()
+    }
 }
