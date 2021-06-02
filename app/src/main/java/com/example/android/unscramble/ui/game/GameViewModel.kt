@@ -1,8 +1,12 @@
 package com.example.android.unscramble.ui.game
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.TtsSpan
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 /**
@@ -22,7 +26,22 @@ class GameViewModel : ViewModel() {
     // 這個讓外部存取 read-only
     // NOTE: Never expose mutable data fields from your ViewModel
     // NOTE: Mutable data inside the ViewModel should always be private.
-    val currentScrambledWord: LiveData<String> get() = _currentScrambledWord
+//    val currentScrambledWord: LiveData<String> get() = _currentScrambledWord
+    val currentScrambledWord: LiveData<Spannable> = Transformations.map(_currentScrambledWord) {
+        if (it == null) {
+            SpannableString("")
+        } else {
+            val scrambledWord = it.toString()
+            val spannable: Spannable = SpannableString(scrambledWord)
+            spannable.setSpan(
+                TtsSpan.VerbatimBuilder(scrambledWord).build(),
+                0,
+                scrambledWord.length,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+            spannable
+        }
+    }
 
     /**
      * 已經出過題目的單字清單
